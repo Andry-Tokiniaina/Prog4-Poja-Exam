@@ -1,0 +1,61 @@
+openapi: 3.0.3
+info:
+  title: Posts API
+  version: 1.0.0
+paths:
+  /posts:
+    post:
+      summary: Creates a post with an image (triggers an async email with the black-and-white image link)
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - image
+                - name
+                - email
+              properties:
+                image:
+                  type: string
+                  format: binary
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+      responses:
+        '201':
+          description: Post created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+    get:
+      summary: Lists all posts
+      responses:
+        '200':
+          description: List of posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+components:
+  schemas:
+    Post:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        expirationDate:
+          type: string
+          format: date-time
