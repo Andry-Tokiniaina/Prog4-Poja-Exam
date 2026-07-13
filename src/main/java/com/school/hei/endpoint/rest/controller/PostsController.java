@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class PostsController {
   private final PostsService postService;
 
-  @PostMapping(value = "/posts", consumes = "multipart/form-data")
+  @PostMapping(consumes = "multipart/form-data")
   public ResponseEntity<Posts> createPost(
       @RequestPart("image") MultipartFile image,
       @RequestParam String name,
@@ -24,7 +24,7 @@ public class PostsController {
     return ResponseEntity.status(HttpStatus.CREATED).body(post);
   }
 
-  @GetMapping("/posts")
+  @GetMapping()
   public ResponseEntity<List<Posts>> getAllPosts() {
     return ResponseEntity.ok(postService.getAllPosts());
   }
